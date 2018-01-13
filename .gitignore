@@ -1,0 +1,5 @@
+*.h5
+.ipynb_checkpoints/*
+*.tiff
+checkpoints/*
+weight_case0/*
