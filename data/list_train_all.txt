@@ -900,7 +900,6 @@ C52_S1_I5.tiff
 C52_S1_I7.tiff
 C52_S1_I8.tiff
 C52_S1_I9.tiff
-C53_S1_I1.tiff
 C53_S1_I10.tiff
 C53_S1_I12.tiff
 C53_S1_I14.tiff
