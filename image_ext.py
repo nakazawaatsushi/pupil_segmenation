@@ -16,3 +16,15 @@ def load_imgs_asarray(paths, grayscale=False, target_size=None,
         array = img_to_array(img, dim_ordering)
         arrays.append(array)
     return numpy.asarray(arrays)
+
+def img_dice_coeff(im1,im2):
+    # Compute dice coeff
+    im1a = numpy.array(im1)
+    im1a[im1a > 0] = 1
+    im2a = numpy.array(im2)
+    im2a[im2a > 0] = 1
+    
+    overlap_a = numpy.array(im1a) * numpy.array(im2a)
+    overlap_b = numpy.array(im1a) + numpy.array(im2a)
+    
+    return (2*sum(sum(overlap_a))/sum(sum(overlap_b)))
