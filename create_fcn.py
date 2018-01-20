@@ -139,7 +139,7 @@ def create_fcn02(input_size):
 
     return fcn
     
-def create_pupil_net(input_size):
+def create_pupil_net02(input_size):
     inputs = Input((3, input_size[1], input_size[0]))
 
     conv1 = Conv2D(32, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv1_1')(inputs)
@@ -172,6 +172,46 @@ def create_pupil_net(input_size):
     full = Dense(50)(full)
     #full = Dropout(0.5)(full)
     #full = Dense(50)(full)
+    out = Dense(2)(full)
+    
+    fcn = Model(inputs=inputs, outputs=out)
+
+    return fcn
+
+def create_pupil_net00(input_size):
+    inputs = Input((3, input_size[1], input_size[0]))
+
+    conv1 = Conv2D(32, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv1_1')(inputs)
+    conv1 = Conv2D(32, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv1_2')(conv1)
+    pool1 = MaxPooling2D(pool_size=(2, 2), data_format='channels_first')(conv1)
+
+    conv2 = Conv2D(64, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv2_1')(pool1)
+    conv2 = Conv2D(64, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv2_2')(conv2)
+    pool2 = MaxPooling2D(pool_size=(2, 2), data_format='channels_first')(conv2)
+
+    conv3 = Conv2D(128, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv3_1')(pool2)
+    conv3 = Conv2D(128, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv3_2')(conv3)
+    pool3 = MaxPooling2D(pool_size=(2, 2), data_format='channels_first')(conv3)
+
+    conv4 = Conv2D(256, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv4_1')(pool3)
+    conv4 = Conv2D(256, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv4_2')(conv4)
+    pool4 = MaxPooling2D(pool_size=(2, 2), data_format='channels_first')(conv4)
+
+    conv5 = Conv2D(512, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv5_1')(pool4)
+    conv5 = Conv2D(512, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv5_2')(conv5)
+    pool5 = MaxPooling2D(pool_size=(2, 2), data_format='channels_first')(conv5)
+
+    conv6 = Conv2D(1024, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv6_1')(pool5)
+    conv6 = Conv2D(1024, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv6_2')(conv6)
+    
+    full01 = Flatten()(conv6)
+    full02 = Flatten()(conv5)
+    full03 = Flatten()(conv4)
+    
+    #full = Concatenate()([full01,full02,full03,full04])
+    full = Concatenate()([full01,full02,full03])
+    full = Dropout(0.5)(full)
+    full = Dense(50)(full)
     out = Dense(2)(full)
     
     fcn = Model(inputs=inputs, outputs=out)
