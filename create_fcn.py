@@ -207,9 +207,10 @@ def create_pupil_net00(input_size):
     full01 = Flatten()(conv6)
     full02 = Flatten()(conv5)
     full03 = Flatten()(conv4)
+    full04 = Flatten()(conv3)
     
     #full = Concatenate()([full01,full02,full03,full04])
-    full = Concatenate()([full01,full02,full03])
+    full = Concatenate()([full01,full02,full03,full04])
     full = Dropout(0.5)(full)
     full = Dense(50)(full)
     out = Dense(2)(full)
