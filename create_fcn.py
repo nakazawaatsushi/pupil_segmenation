@@ -59,8 +59,12 @@ def create_fcn00(input_size):
     return fcn
     
 def create_fcn01(input_size):
-    inputs = Input((3, input_size[1], input_size[0]))
-
+    
+    if len(input_size) == 2:
+        inputs = Input((3, input_size[1], input_size[0]))
+    elif len(input_size) == 3:
+        inputs = Input((input_size[2], input_size[1], input_size[0]))
+        
     conv1 = Conv2D(32, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv1_1')(inputs)
     conv1 = Conv2D(32, (3, 3), activation='relu', padding='same', data_format='channels_first', name='conv1_2')(conv1)
     pool1 = MaxPooling2D(pool_size=(2, 2), data_format='channels_first')(conv1)
