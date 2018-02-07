@@ -28,3 +28,18 @@ def img_dice_coeff(im1,im2):
     overlap_b = numpy.array(im1a) + numpy.array(im2a)
     
     return (2*sum(sum(overlap_a))/sum(sum(overlap_b)))
+
+def get_center(im):
+    im[im>0] = 1;
+    xval = 0
+    yval = 0
+    npix = 0
+
+    for x in range(0,im.shape[1]):
+        xval += (x*sum(im[:,x]))
+        npix += sum(im[:,x])
+    
+    for y in range(0,im.shape[0]):
+        yval += (y*sum(im[y,:]))
+    
+    return [xval/npix,yval/npix]
