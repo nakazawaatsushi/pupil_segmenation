@@ -42,4 +42,4 @@ def get_center(im):
     for y in range(0,im.shape[0]):
         yval += (y*sum(im[y,:]))
     
-    return [xval/npix,yval/npix]
+    return [(xval+1)/(npix+1),(yval+1)/(npix+1)]
