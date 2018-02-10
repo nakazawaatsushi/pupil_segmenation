@@ -44,5 +44,5 @@ def get_center(im):
     
     if npix == 0:
         return [-1,-1]
-    else
+    else:
         return [xval/npix,yval/npix]
