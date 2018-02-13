@@ -3,6 +3,8 @@
 *.tiff
 *.jpg
 *.png
+*.JPG
+*.PNG
 checkpoints/*
 weight_case0/*
 Untitled*
