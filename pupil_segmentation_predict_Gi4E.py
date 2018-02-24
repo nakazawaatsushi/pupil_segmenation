@@ -55,8 +55,10 @@ if __name__ == '__main__':
     
     target_size = (224, 224)
     dpath_this = './'
-    dname_checkpoints = 'checkpoints_fcn00.Gi4E.' + TEST_SEQ
-    dname_outputs = 'outputs.learn_by_Gi4E'
+    # dname_checkpoints = 'checkpoints_fcn00.Gi4E.' + TEST_SEQ
+    dname_checkpoints = 'checkpoints_fcn00.augumented_2.alldata'
+    # dname_outputs = 'outputs.learn_by_Gi4E'
+    dname_outputs = 'outputs.Gi4E.augumented_2'
     fname_architecture = 'architecture.json'
     fname_weights = "model_weights_{epoch:02d}.h5"
     fname_stats = 'stats01.npz'
@@ -68,14 +70,16 @@ if __name__ == '__main__':
     model_fcn00 = create_fcn00(target_size)
 
 
-# In[7]:
+# In[12]:
 
 
 #
 # Test Gi4e data
 #
-fnames = load_fnames('data.gi4e/list_test' + argv[1] + '.txt')
-[fpaths_xs_test,fpaths_ys_test] = make_fnames(fnames,'data.gi4e/left/img','','')
+#fnames = load_fnames('data.gi4e/list_test' + argv[1] + '.txt')
+fnames = load_fnames('data.gi4e/list_all.txt')
+
+[fpaths_xs_test,fpaths_ys_test] = make_fnames(fnames,'data.gi4e/right/img','','')
 
 X_test = load_imgs_asarray(fpaths_xs_test, grayscale=False, target_size=target_size,
                             dim_ordering=dim_ordering)
@@ -93,13 +97,14 @@ for i in range(3):
 print('==> done')
 
 
-# In[4]:
+# In[13]:
 
 
 from PIL import Image
 import matplotlib.pyplot as plt
 
 # 学習済みの重みをロード
+epoch = 199
 fname_weights = 'model_weights_%02d.h5'%(int(epoch))
 fpath_weights = os.path.join(dname_checkpoints, fname_weights)
 model_fcn00.load_weights(fpath_weights)
@@ -109,11 +114,12 @@ print('==> done')
 outputs = model_fcn00.predict(X_test)
 
 
-# In[8]:
+# In[14]:
 
 
 # 出力を画像として保存
-dname_outputs = './outputs.gi4e-left.learnedbygig4e/'
+#dname_outputs = './outputs.gi4e-left.learnedbygig4e/'
+dname_outputs = './outputs.gi4e-right.learnedbyubiris/'
 if not os.path.isdir(dname_outputs):
     print('create directory: %s'%(dname_outputs))
     os.mkdir(dname_outputs)
@@ -125,29 +131,27 @@ for i, array in enumerate(outputs):
     formatted = (array[0]*255.0/np.max(array[0])).astype('uint8')
     #img_out = array_to_img(array, dim_ordering)
     img_out = Image.fromarray(formatted)
-    fpath_out = os.path.join(dname_outputs, "%s"%(fnames[n]))
+    fpath_out = os.path.join(dname_outputs, "%s"%(fnames[i]))
     img_out.save(fpath_out)
 
 print('==> done')
 
 
-# In[9]:
+# In[11]:
 
 
-n = 0
-dice_eval = []
-
-for i in range(len(fpaths_xs_test)):
-    # テスト画像
-    im1 = Image.open(fpaths_xs_test[i])
-    im1 = im1.resize((320,240)) 
-    # 出力結果
-    im2 = Image.open(os.path.join(dname_outputs, "%05d.png"%(n)))
-    im2 = im2.resize((320,240))
-    # Grond Truth
-    plt.imshow(np.hstack((np.array(im1),np.array(im2))))
-    plt.show()
-    n = n + 1
-
-print('%d: Dice eval av. : %f'%(epoch,np.mean(np.array(dice_eval))))
+#    dice_eval = []
+#
+#    for i in range(len(fpaths_xs_test)):
+#        # テスト画像
+#        im1 = Image.open(fpaths_xs_test[i])
+#        im1 = im1.resize((320,240)) 
+#        # 出力結果
+#        im2 = Image.open(os.path.join(dname_outputs, "%s"%(fnames[i])))
+#        im2 = im2.resize((320,240))
+#        # Grond Truth
+#        plt.imshow(np.hstack((np.array(im1),np.array(im2))))
+#        plt.show()
+#    
+#    print('%d: Dice eval av. : %f'%(epoch,np.mean(np.array(dice_eval))))
 
