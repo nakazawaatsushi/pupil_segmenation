@@ -66,7 +66,7 @@ if __name__ == '__main__':
     target_size = (224, 224)
     dpath_this = './'
     dname_checkpoints = 'checkpoints_UBIRIS.augumented.' + TEST_SEQ
-    dname_checkpoints_fcn00 = 'checkpoints_fcn00.augumented_2'
+    dname_checkpoints_fcn00 = 'checkpoints_fcn00.augumented'
     fname_weights = "model_weights_{epoch:02d}.h5"
     fname_stats = 'stats01.npz'
     dim_ordering = 'channels_first'
@@ -78,11 +78,11 @@ if __name__ == '__main__':
     
     # 学習済みの重みをロード(UBIRIS + Augumented2)
     print('loading weight..')
-    epoch = 200
-    fname_weights = 'model_weights_%02d.h5'%(epoch)
-    fpath_weights = os.path.join(dname_checkpoints_fcn00, fname_weights)
-    model_fcn00.load_weights(fpath_weights)
-    print('==> done')
+    #epoch = 200
+    #fname_weights = 'model_weights_%02d.h5'%(epoch)
+    #fpath_weights = os.path.join(dname_checkpoints_fcn00, fname_weights)
+    #model_fcn00.load_weights(fpath_weights)
+    #print('==> done')
     
     if os.path.exists(dname_checkpoints) == 0:
         os.mkdir(dname_checkpoints)
